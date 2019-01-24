@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.mybatis.persistence.ManagerMapper">
+	
+	<insert id="insertSurvey" parameterType="survey">
+		INSERT INTO Survey
+		VALUES(#{number}, #{surveyTitle}, #{vote_1}, #{vote_2}, #{vote_3}, #{vote_4}, #{vote_5},
+		#{vote_6}, #{vote_7}, #{vote_8}, #{vote_9}, #{vote_10}, #{activation})
+	</insert>
+	
+	<insert id="insertUser" parameterType="user">
+		INSERT INTO UserInfo (UserName, UserPhone, UserPassWD)
+		VALUES(#{userName}, #{userPhone}, #{userPassWD})
+	</insert>
+	
+	<insert id="insertUserSurvey" parameterType="userSurvey">
+		INSERT INTO UserSurvey (UserID, SurveyTitle, Vote)
+		VALUES(#{userID}, #{surveyTitle}, #{vote})
+	</insert>
+	
+	<select id="countUserCheck" parameterType="user" resultType="int">
+		SELECT COUNT(*) FROM UserInfo WHERE UserPhone = #{userPhone}
+	</select>
+	
+	<select id="countSurveyList" resultType="int">
+		SELECT COUNT(*) FROM Survey
+	</select>
+	
+	<select id="selectUserLogin" parameterType="user" resultType="int">
+		SELECT * FROM UserInfo WHERE UserPhone = #{userPhone} AND UserPassWD = #{userPassWD}
+	</select>
+	
+	<select id="selectSurveyList" resultType="survey">
+		SELECT * FROM Survey
+	</select>
+	
+	<select id="seletSurveyRandom" resultType="survey">
+		SELECT * FROM Survey WHERE Activation = 1
+	</select>
+	
+	<update id="updateSurvey" parameterType="survey">
+		UPDATE Survey SET Vote_1=#{vote_1}, Vote_2=#{vote_2}, Vote_3=#{vote_3}, Vote_4=#{vote_4},
+		Vote_5=#{vote_5}, Vote_6=#{vote_6}, Vote_7=#{vote_7}, Vote_8=#{vote_8}, Vote_9=#{vote_9},
+		Vote_10=#{vote_10}
+		WHERE SurveyTitle=#{surveyTitle}   
+	</update>
+	
+	<update id="updateSurveyActivation" parameterType="survey">
+		UPDATE Survey SET Activation=#{activation}
+		WHERE SurveyTitle=#{surveyTitle}
+	</update>
+	
+	<delete id="deleteSurvey" parameterType="string">
+		DELETE FROM Survey WHERE SurveyTitle=#{surveyTitle}
+	</delete>
+	
+</mapper>

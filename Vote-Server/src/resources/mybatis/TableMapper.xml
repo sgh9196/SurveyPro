@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.mybatis.persistence.TableMapper">
+	
+	<update id="createUserTable">
+		CREATE TABLE IF NOT EXISTS UserInfo
+		(
+		Number INT NOT NULL AUTO_INCREMENT,
+		UserName VARCHAR(30) NOT NULL,
+		UserPhone INT(11) NOT NULL,
+		UserPassWD VARCHAR(40) NOT NULL,
+		PRIMARY KEY(Number, UserPhone)
+		)
+	</update>
+	
+	<update id="createSurveyTable">
+		CREATE TABLE IF NOT EXISTS Survey
+		(
+		Number INT NOT NULL,
+		SurveyTitle VARCHAR(500) NOT NULL,
+		Vote_1 VARCHAR(100) DEFAULT '',
+		Vote_2 VARCHAR(100) DEFAULT '',
+		Vote_3 VARCHAR(100) DEFAULT '',
+		Vote_4 VARCHAR(100) DEFAULT '',
+		Vote_5 VARCHAR(100) DEFAULT '',
+		Vote_6 VARCHAR(100) DEFAULT '',
+		Vote_7 VARCHAR(100) DEFAULT '',
+		Vote_8 VARCHAR(100) DEFAULT '',
+		Vote_9 VARCHAR(100) DEFAULT '',
+		Vote_10 VARCHAR(100) DEFAULT '',
+		Activation BOOLEAN DEFAULT FALSE,
+		PRIMARY KEY(Number)
+		)
+	</update>
+	
+	<update id="createUserSurvey">
+		CREATE TABLE IF NOT EXISTS UserSurvey
+		(
+		Number INT NOT NULL AUTO_INCREMENT,
+		UserID INT(11) NOT NULL,
+		SurveyTitle VARCHAR(500) NOT NULL,
+		Vote VARCHAR(100) NOT NULL,
+		PRIMARY KEY(Number)
+		)
+	</update>
+	
+</mapper>

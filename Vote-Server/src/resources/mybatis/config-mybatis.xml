@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<!-- 셋팅 스택 -->
+	<settings>
+		<!-- 셋팅 -->
+		<setting name = "mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	
+	<!-- 타입 에일리어스 스택 -->
+	<typeAliases>
+		<!-- 타입 에일리어스 -->
+		<!-- <typeAlias alias="user" type="org.mybatis.domain.User" /> -->
+		<typeAlias alias="survey" type="org.mybatis.domain.SurveyDTO" />
+		<typeAlias alias="user" type="org.mybatis.domain.UserDTO" />
+		<typeAlias alias="userSurvey" type="org.mybatis.domain.UserSurveyDTO" />
+	</typeAliases>
+	
+	<!-- 환경 스택 -->
+	<environments default="default">
+		<!-- 환경 -->
+		<environment id="default">
+			<!-- 트랜잭션 관리자 -->
+			<transactionManager type="JDBC" />
+			
+			<!-- 데이터 소스 -->
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="com.mysql.cj.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/Vote?serverTimezone=UTC" />
+				<property name="username" value="sgh" />
+				<property name="password" value="9196" />
+			</dataSource>
+			
+		</environment>
+	</environments>
+	
+	<!-- 매퍼 스택 -->
+	<mappers>
+		<!-- 매퍼 -->
+		<mapper resource="resources/mybatis/TableMapper.xml" />
+		<mapper resource="resources/mybatis/ManagerMapper.xml" />
+	</mappers>
+	
+</configuration>
