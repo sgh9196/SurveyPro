@@ -41,6 +41,10 @@
 		SELECT * FROM Survey WHERE Activation = 1
 	</select>
 	
+	<select id="selectResult" parameterType="string" resultType="String">
+		SELECT Vote FROM UserSurvey WHERE SurveyTitle = #{surveyTitle} 
+	</select>
+	
 	<update id="updateSurvey" parameterType="survey">
 		UPDATE Survey SET Vote_1=#{vote_1}, Vote_2=#{vote_2}, Vote_3=#{vote_3}, Vote_4=#{vote_4},
 		Vote_5=#{vote_5}, Vote_6=#{vote_6}, Vote_7=#{vote_7}, Vote_8=#{vote_8}, Vote_9=#{vote_9},

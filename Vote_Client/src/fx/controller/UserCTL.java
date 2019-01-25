@@ -21,19 +21,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class UserCTL implements Initializable {
 
 	@FXML private AnchorPane loginPane;
 	@FXML private TitledPane titlePaneVote;
+	@FXML private GridPane resultPane;
 
 	@FXML private TextField textID;
 	@FXML private PasswordField textPassWD;
@@ -52,7 +56,31 @@ public class UserCTL implements Initializable {
 	@FXML private RadioButton radioResult9;
 	@FXML private RadioButton radioResult10;
 	
+	@FXML private Label l1;
+	@FXML private Label l2;
+	@FXML private Label l3;
+	@FXML private Label l4;
+	@FXML private Label l5;
+	@FXML private Label l6;
+	@FXML private Label l7;
+	@FXML private Label l8;
+	@FXML private Label l9;
+	@FXML private Label l10;
+	
+	@FXML private ProgressBar p1;
+	@FXML private ProgressBar p2;
+	@FXML private ProgressBar p3;
+	@FXML private ProgressBar p4;
+	@FXML private ProgressBar p5;
+	@FXML private ProgressBar p6;
+	@FXML private ProgressBar p7;
+	@FXML private ProgressBar p8;
+	@FXML private ProgressBar p9;
+	@FXML private ProgressBar p10;
+	
+	
 	@FXML private Button btnSave;
+	@FXML private Button btnResult;
 	
 	private String radioSelect = "";
 	
@@ -216,6 +244,72 @@ public class UserCTL implements Initializable {
 							}
 						} catch(Exception e) {}
 					});
+					
+					btnResult.setOnAction(event -> {
+						try {
+							out.writeUTF("R");
+							
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									try {
+										
+										titlePaneVote.setVisible(false);
+										resultPane.setVisible(true);
+										
+										DataInputStream in = new DataInputStream(socket.getInputStream());
+										String data = in.readUTF();
+										String text = "";
+										int count = 0;
+										
+										for(int i=0; i<data.length(); i++) {
+
+											if(data.charAt(i) == '|') {
+												if(text.equals(radioSelect)) { text += " *"; }
+												switch(count) {
+													case 1: l1.setText(text); break;
+													case 2: l2.setText(text); break;
+													case 3: l3.setText(text); break;
+													case 4: l4.setText(text); break;
+													case 5: l5.setText(text); break;
+													case 6: l6.setText(text); break;
+													case 7: l7.setText(text); break;
+													case 8: l8.setText(text); break;
+													case 9: l9.setText(text); break;
+													case 10: l10.setText(text); break;
+												}
+												count++; text = "";
+											}
+											else {
+												text += String.valueOf(data.charAt(i));
+											}
+											
+										}
+										
+										String countData = in.readUTF();
+										
+										double[] count2 = new double[10];
+										for(int i=0; i<count2.length; i++) 
+											count2[i] = Double.parseDouble(String.valueOf(countData.charAt(i))) * 0.1;
+										
+										p1.setProgress(count2[0]);
+										p2.setProgress(count2[1]);
+										p3.setProgress(count2[2]);
+										p4.setProgress(count2[3]);
+										p5.setProgress(count2[4]);
+										p6.setProgress(count2[5]);
+										p7.setProgress(count2[6]);
+										p8.setProgress(count2[7]);
+										p9.setProgress(count2[8]);
+										p10.setProgress(count2[9]);
+										
+									} catch(Exception e) {}
+								}
+							});
+							
+						} catch(Exception e) {}
+					});
+					
 				}
 			});
 			
@@ -290,6 +384,11 @@ public class UserCTL implements Initializable {
 			radioTextIn();
 			TcpSingleSender tss = new TcpSingleSender(socket);
 			tss.start();
+	
+			
+			
+			
+			
 		
 		}
 	}

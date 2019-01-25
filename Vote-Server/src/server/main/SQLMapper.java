@@ -142,6 +142,16 @@ public class SQLMapper {
 		
 	}
 	
+	public List<String> sqlSelectUserSurvey(List<String> _list, String _surveyTitle) {
+		
+		try {
+			_list = sqlSession.selectList(parameter + "ManagerMapper.selectResult", _surveyTitle);
+		} catch(Exception e) { e.printStackTrace();  }
+		
+		return _list;
+		
+	}
+	
 	/* Survey List Return */
 	public List<SurveyDTO> sqlSelectSurveyList(List<SurveyDTO> _list) {
 		try {

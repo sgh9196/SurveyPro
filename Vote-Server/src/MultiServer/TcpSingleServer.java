@@ -252,6 +252,49 @@ public class TcpSingleServer extends Thread {
 
 						} else { out.writeUTF("0"); }
 					}
+					else if(dataSet[0].equals("R")) {
+						String data = survey.getSurveyTitle() + "|";
+						data += survey.getVote_1() + "|";
+						data += survey.getVote_2() + "|";
+						data += survey.getVote_3() + "|";
+						data += survey.getVote_4() + "|";
+						data += survey.getVote_5() + "|";
+						data += survey.getVote_6() + "|";
+						data += survey.getVote_7() + "|";
+						data += survey.getVote_8() + "|";
+						data += survey.getVote_9() + "|";
+						data += survey.getVote_10();
+						
+						out.writeUTF(data);
+						//....
+						List<String> userVoteList = null;
+						SQLMapper sqlMapper = new SQLMapper();
+						sqlMapper.transactionOpen();
+						userVoteList = sqlMapper.sqlSelectUserSurvey(userVoteList, survey.getSurveyTitle());
+						sqlMapper.transactionClose();
+						
+						int[] count = new int[10];
+						
+						
+						for(int k=0; k<userVoteList.size(); k++) {
+							if(survey.getVote_1().equals(userVoteList.get(k))) { count[0] += 1; }
+							else if(survey.getVote_2().equals(userVoteList.get(k))) { count[1] += 1; }
+							else if(survey.getVote_3().equals(userVoteList.get(k))) { count[2] += 1; }
+							else if(survey.getVote_4().equals(userVoteList.get(k))) { count[3] += 1; }
+							else if(survey.getVote_5().equals(userVoteList.get(k))) { count[4] += 1; }
+							else if(survey.getVote_6().equals(userVoteList.get(k))) { count[5] += 1; }
+							else if(survey.getVote_7().equals(userVoteList.get(k))) { count[6] += 1; }
+							else if(survey.getVote_8().equals(userVoteList.get(k))) { count[7] += 1; }
+							else if(survey.getVote_9().equals(userVoteList.get(k))) { count[8] += 1; }
+							else if(survey.getVote_10().equals(userVoteList.get(k))) { count[9] += 1; }
+						}
+						
+						String outData = "";
+						for(int i=0; i<count.length; i++) outData += count[i];
+						
+						out.writeUTF(outData);
+						
+					}
 					else {
 						
 						String usrVote = in.readUTF();
@@ -278,8 +321,8 @@ public class TcpSingleServer extends Thread {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						clientMap.remove(dataSet[2]);
-						textProgress.appendText("[" + dataSet[2] + "]님 퇴장\n");
+						clientMap.remove(userID);
+						textProgress.appendText("[" + userID + "]님 퇴장\n");
 						listClientView.getItems().remove(dataSet[2]);
 					}
 				});
